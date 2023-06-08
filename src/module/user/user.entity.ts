@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { AfterInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({ name: 'user' })
 export class UserEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -11,6 +11,11 @@ export class UserEntity {
     @Column()
     password: string;
 
-    @Column()
+    @Column({ nullable: true })
     name: string;
+
+    @AfterInsert()
+    logInsert() {
+        console.log("user id was inserted :", this.id)
+    }
 }

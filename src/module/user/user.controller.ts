@@ -10,13 +10,19 @@ export class UserController {
     @ApiTags('auth')
     @Get('/:id')
     findUser(@Param('id')id: number) {
+        return this.userService.findOne(id)
+    }
 
+    @ApiTags('auth')
+    @Get('/search/:key')
+    searchdUserByKey(@Param('key') key: string) {
+        return this.userService.find(key)
     }
 
     @ApiTags('auth')
     @Post('/signup')
     createUser(@Body() dto: CreateUserDto) {
-        return dto
+        return this.userService.create(dto)
     }
 
 }

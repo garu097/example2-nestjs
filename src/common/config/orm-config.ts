@@ -8,7 +8,7 @@ export const CONFIG: MysqlConnectionOptions = {
    password: '',
    database: 'example2',
    entities: [
-        __dirname + '/../**/*.entity{.ts,.js}',
+        __dirname + '/../../**/*.entity{.ts,.js}',
    ],
    synchronize: true,
 }
