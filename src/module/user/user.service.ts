@@ -30,4 +30,21 @@ export class UserService {
             }
         })
     }
+
+    async update(id: number, attr: Partial<UserEntity>) {
+        const user = await this.findOne(id)
+        if(!user) {
+            throw Error("User not found")
+        }
+        Object.assign(user, attr)
+        return this.userRepository.save(user)
+    }
+
+    async remove(id: number) {
+        const user = await this.findOne(id)
+        if(!user) {
+            throw Error("User not found")
+        }
+        return this.userRepository.remove(user)
+    }
 }
