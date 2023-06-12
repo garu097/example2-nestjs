@@ -1,11 +1,13 @@
 import { UpdateUserDto } from './dto/update-user.dto';
-import { NotfoundError } from './../../common/errors/notfound.error';
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query , ClassSerializerInterceptor} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
+import { Serialize } from 'src/common/interceptors/serialize.interceptor';
+import { UserDto } from './dto/user.dto';
 @ApiTags('auth')
 @Controller('auth')
+@Serialize(UserDto)
 export class UserController {
     constructor(private readonly userService:UserService) {}
 
@@ -31,10 +33,6 @@ export class UserController {
 
     @Delete('/:id')
     deleteUser(@Param('id')id: number) {
-        const user = this.userService.findOne(id)
-        if(!user) {
-            throw new NotfoundError()
-        }
         return this.userService.remove(id)
     }
 }

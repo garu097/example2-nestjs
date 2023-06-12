@@ -1,5 +1,5 @@
 import { CreateUserDto } from './dto/create-user.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
@@ -34,7 +34,7 @@ export class UserService {
     async update(id: number, attr: Partial<UserEntity>) {
         const user = await this.findOne(id)
         if(!user) {
-            throw Error("User not found")
+            throw new NotFoundException()
         }
         Object.assign(user, attr)
         return this.userRepository.save(user)
@@ -43,7 +43,7 @@ export class UserService {
     async remove(id: number) {
         const user = await this.findOne(id)
         if(!user) {
-            throw Error("User not found")
+            throw new NotFoundException()
         }
         return this.userRepository.remove(user)
     }
