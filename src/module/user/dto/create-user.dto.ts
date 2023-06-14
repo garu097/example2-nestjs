@@ -9,4 +9,4 @@ export class CreateUserDto {
     @ApiProperty()
     @IsString()
     password: string
-}
+} 

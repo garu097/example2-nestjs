@@ -1,7 +1,7 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 
 @Injectable()
@@ -14,17 +14,17 @@ export class UserService {
         return this.userRepository.save(user)
     }
 
-    findOne(id: number) {
-        return this.userRepository.findOneBy({ id })
+    findOne(user: FindOptionsWhere<UserEntity>) {
+        return this.userRepository.findOneBy(user)
     }
 
     find(key: string) {
         return this.userRepository.find({
-            where: [
+            where: key ? [
                 { id: isNaN(+key) ? undefined : +key },
-                { name: ILike(`%${key}%`) },
+                { name:  ILike(`%${key}%`) },
                 { email: ILike(`%${key}%`) }
-            ],
+            ] : [],
             order: {
                 id: "ASC"
             }
@@ -32,7 +32,7 @@ export class UserService {
     }
 
     async update(id: number, attr: Partial<UserEntity>) {
-        const user = await this.findOne(id)
+        const user = await this.findOne({ id })
         if(!user) {
             throw new NotFoundException()
         }
@@ -41,7 +41,7 @@ export class UserService {
     }
 
     async remove(id: number) {
-        const user = await this.findOne(id)
+        const user = await this.findOne({ id })
         if(!user) {
             throw new NotFoundException()
         }

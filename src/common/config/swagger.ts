@@ -10,6 +10,10 @@ export const swaggerSetup = (app: INestApplication) => {
     
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document, {
-        swaggerOptions: { defaultModelsExpandDepth: -1 },
+        swaggerOptions: { 
+            defaultModelsExpandDepth: -1, // hidden schema
+            tagsSorter: 'alpha',
+            // operationsSorter: 'alpha', 
+        }, 
     });
 }
