@@ -6,6 +6,7 @@ import { AuthUserDto } from '../auth/dto/auth-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as ms from 'ms';
 import { ConfigService } from '@nestjs/config';
+import { IPayload } from './dto/jwt-payload';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
         private readonly configService: ConfigService) {}
 
     async validateUser(email: string, password: string) {
-        const user = await this.userService.findOne({ email: email })
+        const user = await this.userService.findOne({ email })
         if(!user) {
             throw new UnauthorizedException("Your account is not yet registered ")
         }
@@ -40,7 +41,7 @@ export class AuthService {
 
     async signin(dto: AuthUserDto) {
         const user = await this.validateUser(dto.email, dto.password);
-        const payload = {
+        const payload: IPayload = {
             id: user.id,
             email: user.email
         }
