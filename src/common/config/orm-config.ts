@@ -1,14 +1,22 @@
-import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+import { ConfigService } from '@nestjs/config';
+import { TypeOrmModuleAsyncOptions, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-export const CONFIG: MysqlConnectionOptions = {
-   type: 'mysql',
-   host: 'localhost',
-   port: 3306,
-   username: 'root',
-   password: '',
-   database: 'example2',
-   entities: [
-        __dirname + '/../../**/*.entity{.ts,.js}',
-   ],
-   synchronize: true,
+export const CONFIG_ORM: TypeOrmModuleAsyncOptions = {
+   inject: [ConfigService],
+   useFactory: (config: ConfigService): TypeOrmModuleOptions => {
+      console.log(config.get<string>('database.host'))
+      return {
+         type: config.get<string>('database.type') as any,
+         host: config.get<string>('database.host'),
+         port: config.get<number>('database.port'),
+         username: config.get<string>('database.username'),
+         password: config.get<string>('database.password'),
+         database: config.get<string>('database.schema'),
+         entities: [
+              __dirname + '/../../**/*.entity{.ts,.js}',
+         ],
+         synchronize: true,
+      } 
+   }
+   
 }
