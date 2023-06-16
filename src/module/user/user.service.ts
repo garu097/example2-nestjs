@@ -18,7 +18,7 @@ export class UserService {
         return this.userRepository.findOneBy(user)
     }
 
-    find(key: string) {
+    find(key?: string) {
         return this.userRepository.find({
             where: key ? [
                 { id: isNaN(+key) ? undefined : +key },

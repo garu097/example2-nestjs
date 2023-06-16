@@ -1,4 +1,3 @@
-import { Exclude } from "class-transformer";
 import { AfterInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'user' })
