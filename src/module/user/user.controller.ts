@@ -16,18 +16,18 @@ export class UserController {
         return this.userService.find(key)
     }
 
-    @Get('/:id')
+    @Get('/:id/find')
     findUser(@Param('id')id: number) {
         return this.userService.findOne({ id })
     }
 
 
-    @Patch('/:id')
+    @Patch('/:id/update')
     updateUser(@Param('id') id: number, @Body() dto: UpdateUserDto) {
         return this.userService.update(id, dto)
     }
 
-    @Delete('/:id')
+    @Delete('/:id/delete')
     deleteUser(@Param('id')id: number) {
         return this.userService.remove(id)
     }
