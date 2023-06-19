@@ -15,6 +15,9 @@ export class ReportsEntity {
     @Column()
     model: string;
 
+    @Column({default: false})
+    approved: boolean;
+
     @Column()
     year: number;
 

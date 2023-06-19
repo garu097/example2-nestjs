@@ -42,7 +42,7 @@ export class AuthService {
     async signin(dto: AuthUserDto) {
         const user = await this.validateUser(dto.email, dto.password);
         const payload: IPayload = {
-            id: user.id,
+            userId: user.id,
             email: user.email
         }
         return {

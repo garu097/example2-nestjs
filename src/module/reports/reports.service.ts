@@ -1,16 +1,19 @@
+import { UserEntity } from './../user/user.entity';
 import { UpdateReportDto } from './dtos/update-report.dto';
 import { CreateReportDto } from './dtos/create-report.dto';
 import { ReportsEntity } from './reports.entity';
 import { ILike, Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ChangeApproveDto } from './dtos/change-approve.dto';
 
 @Injectable()
 export class ReportsService {
     constructor(@InjectRepository(ReportsEntity) private readonly reportRepository: Repository<ReportsEntity>) {}
 
-    create(dto: CreateReportDto) {
+    create(user: UserEntity,dto: CreateReportDto) {
         const newReport = this.reportRepository.create(dto)
+        newReport.user = user
         return this.reportRepository.save(newReport)
     }
 
@@ -37,18 +40,18 @@ export class ReportsService {
 
     async update(id: number, dto: Partial<UpdateReportDto>) {
         const report = await this.findOneById(id)
-        if(!report) {
-            throw new NotFoundException()
-        }
         Object.assign(report, dto)
         return this.reportRepository.save(report) 
     }
 
     async remove(id: number) {
         const report = await this.findOneById(id)
-        if(!report) {
-            throw new NotFoundException()
-        }
         return this.reportRepository.remove(report)
+    }
+
+    async changeApprove(id: number, dto: ChangeApproveDto){
+        const report = await this.findOneById(id)
+        report.approved = dto.approved
+        return this.reportRepository.save(report)
     }
 }

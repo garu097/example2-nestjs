@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
+import { Role } from 'src/common/constant/roles.constant';
 
 @Injectable()
 export class UserService {
@@ -46,5 +47,13 @@ export class UserService {
             throw new NotFoundException()
         }
         return this.userRepository.remove(user)
+    }
+
+    async matchRoles(id: number, roles: Role[]) {
+        const user = await this.findOne({ id })
+        if(!user) {
+            throw new NotFoundException()
+        }
+        return roles.includes(user.role)
     }
 }

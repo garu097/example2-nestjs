@@ -6,6 +6,8 @@ import { AuthService } from './auth.service';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { Auth } from 'src/common/decorator/auth.decorator';
+import { Serialize } from 'src/common/interceptors/serialize.interceptor';
+import { UserDto } from '../user/dto/user.dto';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -18,6 +20,7 @@ export class AuthController {
 
     @Auth()
     @Get('/get-me')
+    @Serialize(UserDto)
     getMe(@CurrentUser() userId: number) {
         return this.userService.findOne({ id: userId })
     }

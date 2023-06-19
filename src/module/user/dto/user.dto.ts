@@ -1,4 +1,5 @@
 import { Expose } from "class-transformer";
+import { Role } from "src/common/constant/roles.constant";
 
 export class UserDto {
     @Expose()
@@ -12,4 +13,7 @@ export class UserDto {
 
     @Expose()
     accessToken: string
+
+    @Expose()
+    role: Role
 }

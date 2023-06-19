@@ -8,6 +8,8 @@ import { UserModule } from './module/user/user.module';
 import { ReportsModule } from './module/reports/reports.module';
 import { AuthModule } from './module/auth/auth.module';
 import configuration from './common/config/configuration';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './common/guard/roles.guard';
 
 @Module({
   imports: [

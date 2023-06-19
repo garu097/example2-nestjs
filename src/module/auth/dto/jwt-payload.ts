@@ -1,4 +1,4 @@
 export type IPayload = {
-    id: number
+    userId: number
     email: string
 }
