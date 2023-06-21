@@ -6,6 +6,7 @@ import { ILike, Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChangeApproveDto } from './dtos/change-approve.dto';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 @Injectable()
 export class ReportsService {
@@ -15,6 +16,42 @@ export class ReportsService {
         const newReport = this.reportRepository.create(dto)
         newReport.user = user
         return this.reportRepository.save(newReport)
+    }
+
+    async createEstimate(dto: GetEstimateDto) {
+        const { made, model, lng, lat, year, mileage } = dto 
+        
+        const queryBuilder = this.reportRepository.createQueryBuilder()
+                .select("*");
+
+        if (made) {
+            queryBuilder.andWhere("made = :made", { made });
+        }
+
+        if (model) {
+            queryBuilder.andWhere("model = :model", { model });
+        }
+
+        if(lng) {
+            queryBuilder.andWhere("lng BETWEEN :minLng AND :maxLng", { minLng: Math.max(lng - 5, 0), maxLng: lng + 5 });
+        }
+
+        if(lat) {
+            queryBuilder.andWhere("lat BETWEEN :minLat AND :maxLat", { minLat: Math.max(lat - 5, 0), maxLat: lat + 5 });
+        }
+
+        if(year) {
+           queryBuilder.andWhere("year BETWEEN :minY AND :maxY", { minY: Math.max(year - 5, 1950), maxY: Math.min(year + 5, 2050) })
+        }
+
+        if(mileage) {
+            queryBuilder.orderBy("ABS(:mileage - mileage)", "ASC")
+                        .setParameter("mileage", mileage)
+        }
+
+        const result = await queryBuilder.getRawMany();
+
+        return result
     }
 
     find(key?: string) {

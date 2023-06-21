@@ -17,7 +17,7 @@ export const swaggerSetup = (app: INestApplication) => {
     SwaggerModule.setup('api', app, document, {
         swaggerOptions: { 
             persistAuthorization: true,
-            defaultModelsExpandDepth: -1, // hidden schema
+            // defaultModelsExpandDepth: -1, // hidden schema
             tagsSorter: 'alpha',
             // operationsSorter: 'alpha', 
         }, 

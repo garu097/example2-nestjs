@@ -10,6 +10,7 @@ import { UserService } from '../user/user.service';
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { ChangeApproveDto } from './dtos/change-approve.dto';
 import { Role } from 'src/common/constant/roles.constant';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 
 @ApiTags('reports')
@@ -23,6 +24,11 @@ export class ReportsController {
     @ApiQuery({ name: 'key', required: false})
     getListReports(@Query('key') key?: string) {
         return this.reportsService.find(key)
+    }
+
+    @Get('/estimate')
+    getEstimate( @Query() dto: GetEstimateDto) {
+        return this.reportsService.createEstimate(dto)
     }
 
     @Serialize(ReportResponseDto)
