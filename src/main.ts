@@ -1,4 +1,4 @@
-import { swaggerSetup } from './common/config/swagger';
+import { swaggerSetup } from './common/config/swagger.config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';

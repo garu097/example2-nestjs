@@ -15,10 +15,35 @@ $ yarn dev
   - [Nest Sample](https://github.com/nestjs/nest/tree/master/sample)
 - [TypeORM](https://typeorm.io)
 
+### Migration
+
+- Migration generate
+
+```bash
+$ yarn migration:generate <path/namefile> -t
+
+#example: yarn migration:generate ./migration/initial -t
+```
+
+- Migration run
+
+```bash
+$ yarn migration:run
+
+```
+
+- Migration revert
+
+```bash
+$ yarn migration:revert
+
+```
+
 # Folders Structure
 
 ```js
 +-- dist // Source build
++-- migrations // Migrations file
 +-- src
 |   +-- module
 |   |   +-- * // folders

@@ -3,13 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from "@nestjs/config"
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CONFIG_ORM } from './common/config/typeorm-config';
+import { typeOrmModuleOptions} from './common/config/typeorm.config';
 import { UserModule } from './module/user/user.module';
 import { ReportsModule } from './module/reports/reports.module';
 import { AuthModule } from './module/auth/auth.module';
-import configuration from './common/config/configuration';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './common/guard/roles.guard';
+import configuration from './common/config/index.config';
 
 @Module({
   imports: [
@@ -17,7 +15,7 @@ import { RolesGuard } from './common/guard/roles.guard';
       load: [configuration],
       isGlobal: true,
     }),
-    TypeOrmModule.forRootAsync(CONFIG_ORM),
+    TypeOrmModule.forRootAsync(typeOrmModuleOptions),
     UserModule,
     ReportsModule,
     AuthModule,
